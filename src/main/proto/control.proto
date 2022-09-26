@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package br.mil.defesa.interc2.mdlp.utils.control;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "grpc";
+option java_outer_classname = "controlProto";
+option objc_class_prefix = "HLW";
+
+service MDLPCtrl {
+  rpc Start (google.protobuf.Empty) returns (Result) {}
+  rpc Stop (google.protobuf.Empty) returns (Result) {}
+  rpc ReceivedStats (google.protobuf.Empty) returns (Stats) {}
+  rpc ReceivedFailStats (google.protobuf.Empty) returns (Stats) {}
+  rpc SendedStats (google.protobuf.Empty) returns (Stats) {}
+  rpc SendedFailStats (google.protobuf.Empty) returns (Stats) {}
+}
+
+
+message MDLP {
+  enum EnumMDLP {
+    INTERC2 = 0;
+    BR1 = 1;
+    EB = 2;
+    ENGINE = 3;
+    STERNA = 4;
+    YB = 5;
+  }
+  EnumMDLP mdlp = 1;
+}
+
+message Result {
+  bool result = 1;
+}
+
+message Stats {
+  int32 count = 1;
+  double valueMean = 2;
+  double valueSDPopulation = 3;
+  double valueSDSample = 4;
+  double intervalMean = 5;
+  double intervalSDPopulation = 6;
+  double intervalSDSample = 7;
+}

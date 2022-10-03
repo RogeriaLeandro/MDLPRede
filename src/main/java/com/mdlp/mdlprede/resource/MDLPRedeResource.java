@@ -9,16 +9,12 @@ import com.mdlp.mdlprede.service.MDLPRedeService;
 @RestController
 public class MDLPRedeResource {
 
-	MDLPRedeService mdlpRedeService;
-	
 	@Autowired
-	public MDLPRedeResource(MDLPRedeService mplRedeService) {
-		this.mdlpRedeService = mdlpRedeService;
-	}
-	
-	@GetMapping("/countsendedstats")
-	public int countSendedStats() {
-		return mdlpRedeService.countSendedStats();
-	}
-	
+	public MDLPRedeService mdlpRedeService;
+	 
+	 @GetMapping("/count_sended_stats") 
+	 public int countSendedStatsYb() { 
+		 return mdlpRedeService.countSendedStats() / 8; 
+	 }
+
 }

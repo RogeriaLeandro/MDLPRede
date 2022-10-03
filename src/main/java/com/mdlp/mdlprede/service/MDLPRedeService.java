@@ -1,35 +1,34 @@
 package com.mdlp.mdlprede.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import grpc.MDLPCtrlGrpc;
-import grpc.MDLPCtrlGrpc.MDLPCtrlBlockingStub;
-import grpc.Stats;
-import net.devh.boot.grpc.client.inject.GrpcClient;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 
 @Service
-public class MDLPRedeService {
-
-	@GrpcClient("mdlp-rede")
-	private MDLPCtrlGrpc.MDLPCtrlBlockingStub mdlpCtrlBlockingStub;
+public class MDLPRedeService{
+	 
+	@Value("${address}")
+	private String address;
 	
-	public int countSendedStats() {
-
-//		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090)
-//				.usePlaintext()
-//				.build();
+	@Value("${port}")
+	private Integer port;
+	
+	 public int countSendedStats() {
+		 
+		ManagedChannel channel = ManagedChannelBuilder.forAddress(address, port)
+				.usePlaintext()
+				.build();
 		
-//		MDLPCtrlGrpc.MDLPCtrlBlockingStub stub = MDLPCtrlGrpc.newBlockingStub(channel);
+		MDLPCtrlGrpc.MDLPCtrlBlockingStub stub = MDLPCtrlGrpc.newBlockingStub(channel);
 		
-//		Stats request = Stats.newBuilder()
-//				.build();
+		int statsSendedStats = stub.sendedStats(null).getCount();
 		
-//		int statsSendedStats = stub.sendedStats(null)
-//				.getCount();
+		channel.shutdown();
 		
-//		Stats stats = stub.sendedStats(Stats.newBuilder())
-//				.build;
-		
-		return mdlpCtrlBlockingStub.sendedStats(null).getCount();
+		return statsSendedStats;
 	}
+
 }
